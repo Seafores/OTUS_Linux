@@ -1,0 +1,412 @@
+[root@KernelVM vagrant]# cat /var/mail/root
+
+From root@KernelVM.localdomain  Sun Aug 18 16:49:02 2019
+Return-Path: <root@KernelVM.localdomain>
+X-Original-To: root@localhost
+Delivered-To: root@localhost.localdomain
+Received: by KernelVM.localdomain (Postfix, from userid 0)
+        id 827BB206FF27; Sun, 18 Aug 2019 16:49:02 +0000 (UTC)
+Message-Id: <20190818164902.827BB206FF27@KernelVM.localdomain>
+Date: Sun, 18 Aug 2019 16:49:02 +0000 (UTC)
+From: root@KernelVM.localdomain (root)
+
+Обрабатываемый временной диапазон 18-08-2019 16:48:02 - 18-08-2019 16:49:02
+
+IP адреса с наибольшим кол-вом запросов c момента последнего отчета:
+     33 188.43.241.106
+     19 93.158.167.130
+     17 217.118.66.161
+     12 162.243.13.195
+     10 87.250.233.68
+      9 62.75.198.172
+      8 163.179.32.118
+      6 95.108.181.93
+      6 165.22.19.102
+      5 71.6.199.23
+
+Адреса с наибольшим кол-вом запросов с момента последнего отчета:
+     54 /
+     39 /wp-login.php
+     17 /xmlrpc.php
+     10 /robots.txt
+      5 /wp-includes/js/wp-embed.min.js?ver=5.0.4
+      5 /wp-admin/admin-post.php?page=301bulkoptions
+      4 /wp-admin/admin-ajax.php?page=301bulkoptions
+      4 /favicon.ico
+      4 /1
+      3 /wp-content/themes/llorix-one-lite/style.css?ver=1.0.0
+
+Все ошибки c момента последнего запуска:
+     24 404
+      3 400
+      1 499
+      1 403
+
+Cписок всех кодов возврата с момента последнего отчета:
+    156 200
+     33 301
+     24 404
+      3 400
+      1 500
+      1 499
+      1 403
+
+From MAILER-DAEMON  Sun Aug 18 16:49:02 2019
+Return-Path: <>
+X-Original-To: root@KernelVM.localdomain
+Delivered-To: root@KernelVM.localdomain
+Received: by KernelVM.localdomain (Postfix)
+        id 8B5AF206FF31; Sun, 18 Aug 2019 16:49:02 +0000 (UTC)
+Date: Sun, 18 Aug 2019 16:49:02 +0000 (UTC)
+From: MAILER-DAEMON@KernelVM.localdomain (Mail Delivery System)
+Subject: Mail Delivery Status Report
+To: root@KernelVM.localdomain
+Auto-Submitted: auto-replied
+MIME-Version: 1.0
+Content-Type: multipart/report; report-type=delivery-status;
+        boundary="827BB206FF27.1566146942/KernelVM.localdomain"
+Message-Id: <20190818164902.8B5AF206FF31@KernelVM.localdomain>
+
+This is a MIME-encapsulated message.
+
+--827BB206FF27.1566146942/KernelVM.localdomain
+Content-Description: Notification
+Content-Type: text/plain; charset=us-ascii
+
+This is the mail system at host KernelVM.localdomain.
+
+Enclosed is the mail delivery report that you requested.
+
+                   The mail system
+
+<root@localhost.localdomain> (expanded from <root@localhost>): delivery via
+    local: delivered to mailbox
+
+--827BB206FF27.1566146942/KernelVM.localdomain
+Content-Description: Delivery report
+Content-Type: message/delivery-status
+
+Reporting-MTA: dns; KernelVM.localdomain
+X-Postfix-Queue-ID: 827BB206FF27
+X-Postfix-Sender: rfc822; root@KernelVM.localdomain
+Arrival-Date: Sun, 18 Aug 2019 16:49:02 +0000 (UTC)
+
+Final-Recipient: rfc822; root@localhost.localdomain
+Original-Recipient: rfc822; root@localhost
+Action: delivered
+Status: 2.0.0
+Diagnostic-Code: X-Postfix; delivery via local: delivered to mailbox
+
+--827BB206FF27.1566146942/KernelVM.localdomain
+Content-Description: Message Headers
+Content-Type: text/rfc822-headers
+
+Return-Path: <root@KernelVM.localdomain>
+Received: by KernelVM.localdomain (Postfix, from userid 0)
+        id 827BB206FF27; Sun, 18 Aug 2019 16:49:02 +0000 (UTC)
+Message-Id: <20190818164902.827BB206FF27@KernelVM.localdomain>
+Date: Sun, 18 Aug 2019 16:49:02 +0000 (UTC)
+From: root@KernelVM.localdomain (root)
+
+--827BB206FF27.1566146942/KernelVM.localdomain--
+
+From root@KernelVM.localdomain  Sun Aug 18 16:49:03 2019
+Return-Path: <root@KernelVM.localdomain>
+X-Original-To: root
+Delivered-To: root@KernelVM.localdomain
+Received: by KernelVM.localdomain (Postfix, from userid 0)
+        id 83E1D206FF2F; Sun, 18 Aug 2019 16:49:02 +0000 (UTC)
+From: "(Cron Daemon)" <root@KernelVM.localdomain>
+To: root@KernelVM.localdomain
+Subject: Cron <root@KernelVM> /opt/script.sh
+Content-Type: text/plain; charset=UTF-8
+Auto-Submitted: auto-generated
+Precedence: bulk
+X-Cron-Env: <XDG_SESSION_ID=5>
+X-Cron-Env: <XDG_RUNTIME_DIR=/run/user/0>
+X-Cron-Env: <LANG=en_US.UTF-8>
+X-Cron-Env: <SHELL=/bin/bash>
+X-Cron-Env: <PATH=/sbin:/bin:/usr/sbin:/usr/bin>
+X-Cron-Env: <MAILTO=root>
+X-Cron-Env: <HOME=/root>
+X-Cron-Env: <LOGNAME=root>
+X-Cron-Env: <USER=root>
+Message-Id: <20190818164902.83E1D206FF2F@KernelVM.localdomain>
+Date: Sun, 18 Aug 2019 16:49:02 +0000 (UTC)
+
+/opt/script.sh: line 1: !#/bin/bash: No such file or directory
+Mail Delivery Status Report will be mailed to <root>.
+
+From root@KernelVM.localdomain  Sun Aug 18 16:50:01 2019
+Return-Path: <root@KernelVM.localdomain>
+X-Original-To: root@localhost
+Delivered-To: root@localhost.localdomain
+Received: by KernelVM.localdomain (Postfix, from userid 0)
+        id 99CE2206FF27; Sun, 18 Aug 2019 16:50:01 +0000 (UTC)
+Message-Id: <20190818165001.99CE2206FF27@KernelVM.localdomain>
+Date: Sun, 18 Aug 2019 16:50:01 +0000 (UTC)
+From: root@KernelVM.localdomain (root)
+
+Обрабатываемый временной диапазон 18-08-2019 16:49:02 - 18-08-2019 16:50:01
+
+IP адреса с наибольшим кол-вом запросов c момента последнего отчета:
+     39 109.236.252.130
+     33 188.43.241.106
+     25 93.158.167.130
+     19 87.250.233.68
+     17 217.118.66.161
+     16 95.165.18.146
+     13 62.75.198.172
+     12 62.210.252.196
+     12 162.243.13.195
+      9 95.108.181.93
+
+Адреса с наибольшим кол-вом запросов с момента последнего отчета:
+     94 /
+     75 /wp-login.php
+     35 /xmlrpc.php
+     13 /robots.txt
+      8 /wp-includes/js/wp-embed.min.js?ver=5.0.4
+      7 /wp-admin/admin-post.php?page=301bulkoptions
+      7 /favicon.ico
+      7 /1
+      6 /wp-admin/admin-ajax.php?page=301bulkoptions
+      5 /wp-content/themes/llorix-one-lite/style.css?ver=1.0.0
+
+Все ошибки c момента последнего запуска:
+     34 404
+      7 400
+      1 499
+      1 403
+
+Cписок всех кодов возврата с момента последнего отчета:
+    300 200
+     61 301
+     34 404
+      7 400
+      1 500
+      1 499
+      1 403
+
+From root@KernelVM.localdomain  Sun Aug 18 16:50:01 2019
+Return-Path: <root@KernelVM.localdomain>
+X-Original-To: root
+Delivered-To: root@KernelVM.localdomain
+Received: by KernelVM.localdomain (Postfix, from userid 0)
+        id 9B10F206FF2F; Sun, 18 Aug 2019 16:50:01 +0000 (UTC)
+From: "(Cron Daemon)" <root@KernelVM.localdomain>
+To: root@KernelVM.localdomain
+Subject: Cron <root@KernelVM> /opt/script.sh
+Content-Type: text/plain; charset=UTF-8
+Auto-Submitted: auto-generated
+Precedence: bulk
+X-Cron-Env: <XDG_SESSION_ID=6>
+X-Cron-Env: <XDG_RUNTIME_DIR=/run/user/0>
+X-Cron-Env: <LANG=en_US.UTF-8>
+X-Cron-Env: <SHELL=/bin/bash>
+X-Cron-Env: <PATH=/sbin:/bin:/usr/sbin:/usr/bin>
+X-Cron-Env: <MAILTO=root>
+X-Cron-Env: <HOME=/root>
+X-Cron-Env: <LOGNAME=root>
+X-Cron-Env: <USER=root>
+Message-Id: <20190818165001.9B10F206FF2F@KernelVM.localdomain>
+Date: Sun, 18 Aug 2019 16:50:01 +0000 (UTC)
+
+/opt/script.sh: line 1: !#/bin/bash: No such file or directory
+Mail Delivery Status Report will be mailed to <root>.
+
+From MAILER-DAEMON  Sun Aug 18 16:50:01 2019
+Return-Path: <>
+X-Original-To: root@KernelVM.localdomain
+Delivered-To: root@KernelVM.localdomain
+Received: by KernelVM.localdomain (Postfix)
+        id 9CCE8206FF2F; Sun, 18 Aug 2019 16:50:01 +0000 (UTC)
+Date: Sun, 18 Aug 2019 16:50:01 +0000 (UTC)
+From: MAILER-DAEMON@KernelVM.localdomain (Mail Delivery System)
+Subject: Mail Delivery Status Report
+To: root@KernelVM.localdomain
+Auto-Submitted: auto-replied
+MIME-Version: 1.0
+Content-Type: multipart/report; report-type=delivery-status;
+        boundary="99CE2206FF27.1566147001/KernelVM.localdomain"
+Message-Id: <20190818165001.9CCE8206FF2F@KernelVM.localdomain>
+
+This is a MIME-encapsulated message.
+
+--99CE2206FF27.1566147001/KernelVM.localdomain
+Content-Description: Notification
+Content-Type: text/plain; charset=us-ascii
+
+This is the mail system at host KernelVM.localdomain.
+
+Enclosed is the mail delivery report that you requested.
+
+                   The mail system
+
+<root@localhost.localdomain> (expanded from <root@localhost>): delivery via
+    local: delivered to mailbox
+
+--99CE2206FF27.1566147001/KernelVM.localdomain
+Content-Description: Delivery report
+Content-Type: message/delivery-status
+
+Reporting-MTA: dns; KernelVM.localdomain
+X-Postfix-Queue-ID: 99CE2206FF27
+X-Postfix-Sender: rfc822; root@KernelVM.localdomain
+Arrival-Date: Sun, 18 Aug 2019 16:50:01 +0000 (UTC)
+
+Final-Recipient: rfc822; root@localhost.localdomain
+Original-Recipient: rfc822; root@localhost
+Action: delivered
+Status: 2.0.0
+Diagnostic-Code: X-Postfix; delivery via local: delivered to mailbox
+
+--99CE2206FF27.1566147001/KernelVM.localdomain
+Content-Description: Message Headers
+Content-Type: text/rfc822-headers
+
+Return-Path: <root@KernelVM.localdomain>
+Received: by KernelVM.localdomain (Postfix, from userid 0)
+        id 99CE2206FF27; Sun, 18 Aug 2019 16:50:01 +0000 (UTC)
+Message-Id: <20190818165001.99CE2206FF27@KernelVM.localdomain>
+Date: Sun, 18 Aug 2019 16:50:01 +0000 (UTC)
+From: root@KernelVM.localdomain (root)
+
+--99CE2206FF27.1566147001/KernelVM.localdomain--
+
+From root@KernelVM.localdomain  Sun Aug 18 16:51:01 2019
+Return-Path: <root@KernelVM.localdomain>
+X-Original-To: root@localhost
+Delivered-To: root@localhost.localdomain
+Received: by KernelVM.localdomain (Postfix, from userid 0)
+        id B499B206FF27; Sun, 18 Aug 2019 16:51:01 +0000 (UTC)
+Message-Id: <20190818165101.B499B206FF27@KernelVM.localdomain>
+Date: Sun, 18 Aug 2019 16:51:01 +0000 (UTC)
+From: root@KernelVM.localdomain (root)
+
+Обрабатываемый временной диапазон 18-08-2019 16:50:01 - 18-08-2019 16:51:01
+
+IP адреса с наибольшим кол-вом запросов c момента последнего отчета:
+     45 93.158.167.130
+     39 109.236.252.130
+     37 212.57.117.19
+     33 188.43.241.106
+     31 87.250.233.68
+     24 62.75.198.172
+     22 148.251.223.21
+     20 185.6.8.9
+     17 217.118.66.161
+     16 95.165.18.146
+
+Адреса с наибольшим кол-вом запросов с момента последнего отчета:
+    157 /
+    120 /wp-login.php
+     57 /xmlrpc.php
+     26 /robots.txt
+     12 /favicon.ico
+     11 400
+      9 /wp-includes/js/wp-embed.min.js?ver=5.0.4
+      7 /wp-admin/admin-post.php?page=301bulkoptions
+      7 /1
+      6 /wp-content/uploads/2016/10/robo5.jpg
+
+Все ошибки c момента последнего запуска:
+     51 404
+      7 400
+      2 499
+      1 405
+      1 403
+
+Cписок всех кодов возврата с момента последнего отчета:
+    498 200
+     95 301
+     51 404
+      7 400
+      3 500
+      2 499
+      1 405
+      1 403
+      1 304
+
+From MAILER-DAEMON  Sun Aug 18 16:51:01 2019
+Return-Path: <>
+X-Original-To: root@KernelVM.localdomain
+Delivered-To: root@KernelVM.localdomain
+Received: by KernelVM.localdomain (Postfix)
+        id B7BCC206FF31; Sun, 18 Aug 2019 16:51:01 +0000 (UTC)
+Date: Sun, 18 Aug 2019 16:51:01 +0000 (UTC)
+From: MAILER-DAEMON@KernelVM.localdomain (Mail Delivery System)
+Subject: Mail Delivery Status Report
+To: root@KernelVM.localdomain
+Auto-Submitted: auto-replied
+MIME-Version: 1.0
+Content-Type: multipart/report; report-type=delivery-status;
+        boundary="B499B206FF27.1566147061/KernelVM.localdomain"
+Message-Id: <20190818165101.B7BCC206FF31@KernelVM.localdomain>
+
+This is a MIME-encapsulated message.
+
+--B499B206FF27.1566147061/KernelVM.localdomain
+Content-Description: Notification
+Content-Type: text/plain; charset=us-ascii
+
+This is the mail system at host KernelVM.localdomain.
+
+Enclosed is the mail delivery report that you requested.
+
+                   The mail system
+
+<root@localhost.localdomain> (expanded from <root@localhost>): delivery via
+    local: delivered to mailbox
+
+--B499B206FF27.1566147061/KernelVM.localdomain
+Content-Description: Delivery report
+Content-Type: message/delivery-status
+
+Reporting-MTA: dns; KernelVM.localdomain
+X-Postfix-Queue-ID: B499B206FF27
+X-Postfix-Sender: rfc822; root@KernelVM.localdomain
+Arrival-Date: Sun, 18 Aug 2019 16:51:01 +0000 (UTC)
+
+Final-Recipient: rfc822; root@localhost.localdomain
+Original-Recipient: rfc822; root@localhost
+Action: delivered
+Status: 2.0.0
+Diagnostic-Code: X-Postfix; delivery via local: delivered to mailbox
+
+--B499B206FF27.1566147061/KernelVM.localdomain
+Content-Description: Message Headers
+Content-Type: text/rfc822-headers
+
+Return-Path: <root@KernelVM.localdomain>
+Received: by KernelVM.localdomain (Postfix, from userid 0)
+        id B499B206FF27; Sun, 18 Aug 2019 16:51:01 +0000 (UTC)
+Message-Id: <20190818165101.B499B206FF27@KernelVM.localdomain>
+Date: Sun, 18 Aug 2019 16:51:01 +0000 (UTC)
+From: root@KernelVM.localdomain (root)
+
+--B499B206FF27.1566147061/KernelVM.localdomain--
+
+From root@KernelVM.localdomain  Sun Aug 18 16:51:02 2019
+Return-Path: <root@KernelVM.localdomain>
+X-Original-To: root
+Delivered-To: root@KernelVM.localdomain
+Received: by KernelVM.localdomain (Postfix, from userid 0)
+        id B642E206FF2F; Sun, 18 Aug 2019 16:51:01 +0000 (UTC)
+From: "(Cron Daemon)" <root@KernelVM.localdomain>
+To: root@KernelVM.localdomain
+Subject: Cron <root@KernelVM> /opt/script.sh
+Content-Type: text/plain; charset=UTF-8
+Auto-Submitted: auto-generated
+Precedence: bulk
+X-Cron-Env: <XDG_SESSION_ID=7>
+X-Cron-Env: <XDG_RUNTIME_DIR=/run/user/0>
+X-Cron-Env: <LANG=en_US.UTF-8>
+X-Cron-Env: <SHELL=/bin/bash>
+X-Cron-Env: <PATH=/sbin:/bin:/usr/sbin:/usr/bin>
+X-Cron-Env: <MAILTO=root>
+X-Cron-Env: <HOME=/root>
+X-Cron-Env: <LOGNAME=root>
+X-Cron-Env: <USER=root>
+Message-Id: <20190818165101.B642E206FF2F@KernelVM.localdomain>
+Date: Sun, 18 Aug 2019 16:51:01 +0000 (UTC)
