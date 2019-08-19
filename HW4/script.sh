@@ -1,4 +1,4 @@
-!#/bin/bash
+#!/bin/bash
 
 # С какой строки начинаем читать файл access.log
 startlong=$(cat /opt/long)
