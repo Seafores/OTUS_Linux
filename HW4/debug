@@ -1,0 +1,243 @@
+[root@KernelVM vagrant]# nano /opt/script.sh
+[root@KernelVM vagrant]# rm /var/mail/root       
+[root@KernelVM vagrant]# nano /opt/long  
+[root@KernelVM vagrant]# cat /opt/long  
+0
+
+[root@KernelVM vagrant]# /opt/script.sh       
+Mail Delivery Status Report will be mailed to <root>. 
+[root@KernelVM vagrant]# /opt/script.sh       
+Mail Delivery Status Report will be mailed to <root>. 
+[root@KernelVM vagrant]# cat /opt/script.sh 
+#!/bin/bash  
+
+# С какой строки начинаем читать файл access.log     
+startlong=$(cat /opt/long)   
+# It's a trap
+lockfile=/opt/lockfile       
+#Старая дата (дату могу вытащить с помощью awk и sed (убрать лишние символы для вывода) через лог, но решил пойти таким путем)       
+olddate=$(cat /opt/date)     
+# Конечное положение последней строки
+endlong=$(wc /opt/access.log | awk '{print $1}')     
+
+if [ $startlong -lt $endlong ]       
+then 
+	if ( set -o noclobber; echo "$$" > "$lockfile") 2> /dev/null;
+	then 
+		trap 'rm -f "$lockfile"; exit $?' INT TERM EXIT KILL 
+		# Очищаем файл перед заполнением     
+		> /opt/send  
+		date +%d-%m-%Y\ %H:%M:%S > /opt/date 
+		newdate=$(cat /opt/date)     
+		echo -e "Обрабатываемый временной диапазон $olddate - $newdate \n" >> /opt/send      
+		echo -e "IP адреса с наибольшим кол-вом запросов c момента последнего отчета:" >> /opt/send  
+		awk '(NR > "$startlong")' /opt/access.log | awk '{print $1}' | sort | uniq -c | sort -rn | head -n 10 >> /opt/send   
+		echo -e "\nАдреса с наибольшим кол-вом запросов с момента последнего отчета:" >> /opt/send   
+		awk '(NR > "$startlong")' /opt/access.log | awk '{print $7}' | sort | uniq -c | sort -rn | head -n 10 >> /opt/send   
+		echo -e "\nВсе ошибки c момента последнего запуска:" >> /opt/send    
+		awk '(NR > "$startlong")' /opt/access.log | awk '{if ($9 ~ /4../) print $9}' | sort | uniq -c | sort -rn | grep -Ev "-" >> /opt/send 
+		echo -e "\nCписок всех кодов возврата с момента последнего отчета:" >> /opt/send     
+		awk '(NR > "$startlong")' /opt/access.log | awk '{print $9}' | sort | uniq -c | sort -rn | grep -Ev "-" >> /opt/send 
+		echo $endlong > /opt/long    
+		# Отправляем отчет на root   
+		cat /opt/send | sendmail -v root@localhost   
+		rm -f "$lockfile"    
+		trap - INT TERM EXIT 
+	fi   
+else 
+# Очищаем файл перед заполнением     
+	> /opt/send  
+	date +%d-%m-%Y\ %H:%M:%S > /opt/date 
+	newdate=$(cat /opt/date)     
+	echo -e "За временной диапазон $olddate - $newdate изменений в access.log не происходило" >> /opt/send       
+	# Отправляем отчет на root    
+	cat /opt/send | sendmail -v root@localhost    
+fi
+
+[root@KernelVM vagrant]# cat /opt/long
+669 
+
+[root@KernelVM vagrant]# cat /var/mail/root   
+From root@KernelVM.localdomain  Mon Aug 19 05:19:41 2019 
+Return-Path: <root@KernelVM.localdomain>      
+X-Original-To: root@localhost 
+Delivered-To: root@localhost.localdomain      
+Received: by KernelVM.localdomain (Postfix, from userid 0)    
+id 5C88D206FF27; Mon, 19 Aug 2019 05:19:41 +0000 (UTC)
+Message-Id: <20190819051941.5C88D206FF27@KernelVM.localdomain>
+Date: Mon, 19 Aug 2019 05:19:41 +0000 (UTC)   
+From: root@KernelVM.localdomain (root)
+
+Обрабатываемый временной диапазон 19-08-2019 05:05:00 - 19-08-2019 05:19:41   
+
+IP адреса с наибольшим кол-вом запросов c момента последнего отчета:  
+     45 93.158.167.130
+     39 109.236.252.130       
+     37 212.57.117.19 
+     33 188.43.241.106
+     31 87.250.233.68 
+     24 62.75.198.172 
+     22 148.251.223.21
+     20 185.6.8.9     
+     17 217.118.66.161
+     16 95.165.18.146 
+
+Адреса с наибольшим кол-вом запросов с момента последнего отчета:     
+    157 /     
+    120 /wp-login.php 
+     57 /xmlrpc.php   
+     26 /robots.txt   
+     12 /favicon.ico  
+     11 400   
+      9 /wp-includes/js/wp-embed.min.js?ver=5.0.4     
+      7 /wp-admin/admin-post.php?page=301bulkoptions  
+      7 /1    
+      6 /wp-content/uploads/2016/10/robo5.jpg 
+
+Все ошибки c момента последнего запуска:      
+     51 404   
+      7 400   
+      2 499   
+      1 405   
+      1 403   
+
+Cписок всех кодов возврата с момента последнего отчета:       
+    498 200   
+     95 301   
+     51 404   
+      7 400   
+      3 500   
+      2 499   
+      1 405   
+      1 403   
+      1 304   
+
+From MAILER-DAEMON  Mon Aug 19 05:19:41 2019  
+Return-Path: <>       
+X-Original-To: root@KernelVM.localdomain      
+Delivered-To: root@KernelVM.localdomain       
+Received: by KernelVM.localdomain (Postfix)   
+id 62AE2206FF30; Mon, 19 Aug 2019 05:19:41 +0000 (UTC)
+Date: Mon, 19 Aug 2019 05:19:41 +0000 (UTC)   
+From: MAILER-DAEMON@KernelVM.localdomain (Mail Delivery System)       
+Subject: Mail Delivery Status Report  
+To: root@KernelVM.localdomain 
+Auto-Submitted: auto-replied  
+MIME-Version: 1.0     
+Content-Type: multipart/report; report-type=delivery-status;  
+boundary="5C88D206FF27.1566191981/KernelVM.localdomain"       
+Message-Id: <20190819051941.62AE2206FF30@KernelVM.localdomain>
+
+This is a MIME-encapsulated message.  
+
+--5C88D206FF27.1566191981/KernelVM.localdomain
+Content-Description: Notification     
+Content-Type: text/plain; charset=us-ascii    
+
+This is the mail system at host KernelVM.localdomain. 
+
+Enclosed is the mail delivery report that you requested.      
+
+   The mail system    
+
+<root@localhost.localdomain> (expanded from <root@localhost>): delivery via   
+    local: delivered to mailbox       
+
+--5C88D206FF27.1566191981/KernelVM.localdomain
+Content-Description: Delivery report  
+Content-Type: message/delivery-status 
+
+Reporting-MTA: dns; KernelVM.localdomain      
+X-Postfix-Queue-ID: 5C88D206FF27      
+X-Postfix-Sender: rfc822; root@KernelVM.localdomain   
+Arrival-Date: Mon, 19 Aug 2019 05:19:41 +0000 (UTC)   
+
+Final-Recipient: rfc822; root@localhost.localdomain   
+Original-Recipient: rfc822; root@localhost    
+Action: delivered     
+Status: 2.0.0 
+Diagnostic-Code: X-Postfix; delivery via local: delivered to mailbox  
+
+--5C88D206FF27.1566191981/KernelVM.localdomain
+Content-Description: Message Headers  
+Content-Type: text/rfc822-headers     
+
+Return-Path: <root@KernelVM.localdomain>      
+Received: by KernelVM.localdomain (Postfix, from userid 0)    
+id 5C88D206FF27; Mon, 19 Aug 2019 05:19:41 +0000 (UTC)
+Message-Id: <20190819051941.5C88D206FF27@KernelVM.localdomain>
+Date: Mon, 19 Aug 2019 05:19:41 +0000 (UTC)   
+From: root@KernelVM.localdomain (root)
+
+--5C88D206FF27.1566191981/KernelVM.localdomain--      
+
+From root@KernelVM.localdomain  Mon Aug 19 05:19:53 2019      
+Return-Path: <root@KernelVM.localdomain>      
+X-Original-To: root@localhost 
+Delivered-To: root@localhost.localdomain      
+Received: by KernelVM.localdomain (Postfix, from userid 0)    
+id DAE49206FF27; Mon, 19 Aug 2019 05:19:53 +0000 (UTC)
+Message-Id: <20190819051953.DAE49206FF27@KernelVM.localdomain>
+Date: Mon, 19 Aug 2019 05:19:53 +0000 (UTC)   
+From: root@KernelVM.localdomain (root)
+
+За временной диапазон 19-08-2019 05:19:41 - 19-08-2019 05:19:53 изменений в access.log не происходило 
+
+From MAILER-DAEMON  Mon Aug 19 05:19:53 2019  
+Return-Path: <>       
+X-Original-To: root@KernelVM.localdomain      
+Delivered-To: root@KernelVM.localdomain       
+Received: by KernelVM.localdomain (Postfix)   
+id DC521206FF30; Mon, 19 Aug 2019 05:19:53 +0000 (UTC)
+Date: Mon, 19 Aug 2019 05:19:53 +0000 (UTC)   
+From: MAILER-DAEMON@KernelVM.localdomain (Mail Delivery System)       
+Subject: Mail Delivery Status Report  
+To: root@KernelVM.localdomain 
+Auto-Submitted: auto-replied  
+MIME-Version: 1.0     
+Content-Type: multipart/report; report-type=delivery-status;  
+boundary="DAE49206FF27.1566191993/KernelVM.localdomain"       
+Message-Id: <20190819051953.DC521206FF30@KernelVM.localdomain>
+
+This is a MIME-encapsulated message.  
+
+--DAE49206FF27.1566191993/KernelVM.localdomain
+Content-Description: Notification     
+Content-Type: text/plain; charset=us-ascii    
+
+This is the mail system at host KernelVM.localdomain. 
+
+Enclosed is the mail delivery report that you requested.      
+
+   The mail system    
+
+<root@localhost.localdomain> (expanded from <root@localhost>): delivery via   
+    local: delivered to mailbox       
+
+--DAE49206FF27.1566191993/KernelVM.localdomain
+Content-Description: Delivery report  
+Content-Type: message/delivery-status 
+
+Reporting-MTA: dns; KernelVM.localdomain      
+X-Postfix-Queue-ID: DAE49206FF27      
+X-Postfix-Sender: rfc822; root@KernelVM.localdomain   
+Arrival-Date: Mon, 19 Aug 2019 05:19:53 +0000 (UTC)   
+
+Final-Recipient: rfc822; root@localhost.localdomain   
+Original-Recipient: rfc822; root@localhost    
+Action: delivered     
+Status: 2.0.0 
+Diagnostic-Code: X-Postfix; delivery via local: delivered to mailbox  
+
+--DAE49206FF27.1566191993/KernelVM.localdomain
+Content-Description: Message Headers  
+Content-Type: text/rfc822-headers     
+
+Return-Path: <root@KernelVM.localdomain>      
+Received: by KernelVM.localdomain (Postfix, from userid 0)    
+id DAE49206FF27; Mon, 19 Aug 2019 05:19:53 +0000 (UTC)
+Message-Id: <20190819051953.DAE49206FF27@KernelVM.localdomain>
+Date: Mon, 19 Aug 2019 05:19:53 +0000 (UTC)   
+From: root@KernelVM.localdomain (root)
+
+--DAE49206FF27.1566191993/KernelVM.localdomain--
