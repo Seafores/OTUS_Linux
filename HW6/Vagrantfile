@@ -1,0 +1,106 @@
+# Локальная сеть
+NETWORK = '10.10.20.'
+# Имя для группы серверов
+DOMAIN = '.otus.ru'
+ 
+SERVERS =
+[
+	{
+		:BOX_NAME => 'centos/7',
+		:HOSTNAME => 'hw6.3' + DOMAIN,
+		:IP => NETWORK + '52',
+		:RAM => 1024,
+		:CPU => '1',
+		:HDDALL =>
+		{
+			:HDD1 =>
+			{
+			:HDDNAME => 'D:\VM\HDD\hw6_2_hdd.vdi',
+			:HDD_SIZE => 512,
+			:PORT => 1
+			}
+		}
+	}
+]
+
+# Входим в Главную конфигурацию Vagrant версии 2
+Vagrant.configure('2') do |config|
+ 
+	# Проходим по элементах массива SERVERS
+	SERVERS.each do |machine|
+ 
+		# Применяем конфигурации для каждой машины
+		config.vm.define machine[:HOSTNAME] do |node|
+ 
+			# Создаем \ проверям box (Centos 7)
+			node.vm.box = machine[:BOX_NAME]
+
+			# Hostname который будет присвоен VM (самой ОС)
+			node.vm.hostname = machine[:HOSTNAME]
+ 
+			# Добавление и настройка внутреннего сетевого адаптера
+			#node.vm.network 'private_network', ip: machine[:IP]
+			node.vm.network "public_network", ip: machine[:IP]
+
+ 
+			# Тонкие настройки (VirtualBox)
+			node.vm.provider :virtualbox do |vb|
+ 
+				# Размер RAM памяти
+				vb.customize ['modifyvm', :id, '--memory', machine[:RAM]]
+				# Количество CPU
+				vb.customize ['modifyvm', :id, '--cpus', machine[:CPU]]
+ 
+				# Перезапись названия VM в Vbox GUI
+				vb.name = machine[:HOSTNAME]
+ 
+				# Без этой опции была ошибка 0x80bb0004, так и не понял для чего она нужна конкретно
+				needsController = false
+
+				#Счетчик для новых HDD
+				hddnew = 0
+
+				# Проверка всех HDD (HDDALL)
+				machine[:HDDALL].each do |hddcurrent, hddconfig|
+
+					# Если диска не существует, создать
+			  		unless File.exist?(hddconfig[:HDDNAME])
+						vb.customize ['createhd', 
+						'--filename', hddconfig[:HDDNAME],
+						'--variant', 'Fixed',
+						'--size', hddconfig[:HDD_SIZE]]
+                                	hddnew = hddnew + 1
+					end
+				end
+				
+				if hddnew >= 1
+					needsController =  true
+				end
+
+				# Если диск был создан, подключаем
+				if needsController == true
+					vb.customize ["storagectl", :id,
+					"--name", "SATA",
+					"--add", "SATA"]
+
+                     			machine[:HDDALL].each do |hddcurrent, hddconfig|
+						vb.customize ['storageattach', :id,
+						'--storagectl', 'SATA',
+						'--port', hddconfig[:PORT],
+						'--device', 0,
+						'--type', 'hdd',
+						'--medium', hddconfig[:HDDNAME]]
+					end
+				end
+			end
+ 
+			# Настройки SSH + скрипт
+			node.vm.provision "shell", inline: <<-SHELL
+				mkdir -p ~root/.ssh
+				cp ~vagrant/.ssh/auth* ~root/.ssh
+				chmod +x /vagrant/script.sh
+				/vagrant/script.sh
+			SHELL
+		end
+	end
+end
