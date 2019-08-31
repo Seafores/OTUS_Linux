@@ -641,7 +641,7 @@ fi
 ### END /etc/grub.d/41_custom ###
 ```
 
-##### Перезагружаемся, смотрим на [пингвина](Pinguin.jpg).
+##### Перезагружаемся, смотрим на [пингвина](https://github.com/Seafores/OTUS_Linux/blob/master/HW7/Pinguin.jpg).
 
 ---
 
