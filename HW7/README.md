@@ -33,13 +33,13 @@
 ##### Так же есть другие способы, например с использованием команд "rd.break init=/bin/bash", "systemd.unit=emergency.target" или "rd.break enforcing=0". Но при использовании этих команд, моя ВМ подвисала и не доходила до нужного режима, поэтому я провел восстановление пароля root через Grub2 в ОС Debian (думаю в рамказ ДЗ это не критично).
 ##### 
 ##### Прилагаю скриншоты из окна Virtualbox:
-- [1 CentOS Live 1.jpg](CentOS Live 1.jpg)
-- [2 CentOS Live 2.jpg](CentOS Live 2.jpg)
+- [1 CentOS Live 1.jpg](https://github.com/Seafores/OTUS_Linux/blob/master/HW7/CentOS%20Live%201.jpg)
+- [2 CentOS Live 2.jpg](https://github.com/Seafores/OTUS_Linux/blob/master/HW7/CentOS%20Live%202.jpg)
 - [3 Debian 1.jpg](https://github.com/Seafores/OTUS_Linux/blob/master/HW7/Debian%201.jpg)
-- [4 Debian 2.jpg](Debian 2.jpg)
-- [5 Debian 3.jpg](Debian 3.jpg)
-- [6 Debian 4.jpg](Debian 4.jpg)
-- [7 Debian 5.jpg](Debian 5.jpg)
+- [4 Debian 2.jpg](https://github.com/Seafores/OTUS_Linux/blob/master/HW7/Debian%202.jpg)
+- [5 Debian 3.jpg](https://github.com/Seafores/OTUS_Linux/blob/master/HW7/Debian%203.jpg)
+- [6 Debian 4.jpg](https://github.com/Seafores/OTUS_Linux/blob/master/HW7/Debian%204.jpg)
+- [7 Debian 5.jpg](https://github.com/Seafores/OTUS_Linux/blob/master/HW7/Debian%205.jpg)
 
 ---
 
