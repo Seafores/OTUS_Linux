@@ -1,0 +1,90 @@
+# Локальная сеть
+NETWORK = '10.10.20.'
+# Имя для группы серверов
+DOMAIN = '.otus.ru'
+ 
+SERVERS =
+[
+	{
+		:BOX_NAME => 'centos/7',
+		:HOSTNAME => 'hw10' + DOMAIN,
+		:IP => NETWORK + '2',
+		:RAM => 2048,
+		:CPU => '2',
+	}
+]
+
+# Входим в Главную конфигурацию Vagrant версии 2
+Vagrant.configure('2') do |config|
+ 
+	# Проходим по элементах массива SERVERS
+	SERVERS.each do |machine|
+ 
+		# Применяем конфигурации для каждой машины
+		config.vm.define machine[:HOSTNAME] do |node|
+ 
+			# Создаем \ проверям box (Centos 7)
+			node.vm.box = machine[:BOX_NAME]
+ 
+			# Hostname который будет присвоен VM (самой ОС)
+			node.vm.hostname = machine[:HOSTNAME]
+ 
+			# Добавление и настройка внутреннего сетевого адаптера
+			node.vm.network 'private_network', ip: machine[:IP]
+ 
+			# Тонкие настройки (VirtualBox)
+			node.vm.provider :virtualbox do |vb|
+ 
+				# Размер RAM памяти
+				vb.customize ['modifyvm', :id, '--memory', machine[:RAM]]
+				# Количество CPU
+				vb.customize ['modifyvm', :id, '--cpus', machine[:CPU]]
+ 
+				# Перезапись названия VM в Vbox GUI
+				vb.name = machine[:HOSTNAME]
+ 
+			end
+ 
+			# Настройки SSH + скрипт
+			node.vm.provision "shell", inline: <<-SHELL
+				mkdir -p ~root/.ssh
+				cp ~vagrant/.ssh/auth* ~root/.ssh
+				yum update -y
+				yum install -y nano mc
+				localectl set-locale LANG=ru_RU.UTF-8
+				
+				adduser testuser -c "Test User" -d /home/testuser -p "$(python -c 'import crypt; print(crypt.crypt("Otus2019", crypt.mksalt(crypt.METHOD_SHA512)))')"
+				sed -i "s/PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config
+				systemctl restart sshd.service
+				yum install ntpdate -y
+				ntpdate -s ntp.ubuntu.com
+				timedatectl set-timezone Asia/Yekaterinburg
+				echo '* ; * ; !root ; MoTuWeThFr0800-1700' >> /etc/security/time.conf
+
+				#[root@hw10 vagrant]# date
+				#Пн сен 30 18:28:10 +05 2019
+
+				echo "" > /etc/pam.d/sshd
+				echo "auth       required     pam_sepermit.so" >> /etc/pam.d/sshd
+				echo "auth       substack     password-auth" >> /etc/pam.d/sshd
+				echo "auth       include      postlogin" >> /etc/pam.d/sshd
+				echo "-auth      optional     pam_reauthorize.so prepare" >> /etc/pam.d/sshd
+				echo "account    required     pam_nologin.so" >> /etc/pam.d/sshd
+				echo "account    include      password-auth" >> /etc/pam.d/sshd
+				echo "account    required     pam_time.so" >> /etc/pam.d/sshd
+				echo "password   include      password-auth" >> /etc/pam.d/sshd
+				echo "session    required     pam_selinux.so close" >> /etc/pam.d/sshd
+				echo "session    required     pam_loginuid.so" >> /etc/pam.d/sshd
+				echo "session    required     pam_selinux.so open env_params" >> /etc/pam.d/sshd
+				echo "session    required     pam_namespace.so" >> /etc/pam.d/sshd
+				echo "session    optional     pam_keyinit.so force revoke" >> /etc/pam.d/sshd
+				echo "session    include      password-auth" >> /etc/pam.d/sshd
+				echo "session    include      postlogin" >> /etc/pam.d/sshd
+				echo "-session   optional     pam_reauthorize.so prepare" >> /etc/pam.d/sshd
+
+				reboot
+
+			SHELL
+		end
+	end
+end
