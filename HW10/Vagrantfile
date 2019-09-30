@@ -57,7 +57,7 @@ Vagrant.configure('2') do |config|
 				sed -i "s/PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config
 				systemctl restart sshd.service
 				yum install ntpdate -y
-				ntpdate -s ntp.ubuntu.com
+				ntpdate -s pool.ntp.org
 				timedatectl set-timezone Asia/Yekaterinburg
 				echo '* ; * ; !root ; MoTuWeThFr0800-1700' >> /etc/security/time.conf
 
